@@ -17,3 +17,5 @@ La vista del lazo conecta las cuatro etapas mediante un modelo visual normalizad
 La primera pestaña presenta la equivalencia entre el PLL de segundo orden y un PI normalizado con planta de fase 1/s. La salida de esa planta es la fase dividida. Las ganancias están absorbidas en el modelo y la ecuación del controlador no se atribuye directamente al filtro físico.
 
 El juego de sincronización ilustra la comparación de fase y el control manual de un oscilador con frecuencia variable. Ambos péndulos representan señales sinusoidales de frecuencia impuesta. La puntuación combina tolerancias de fase y frecuencia y es un criterio del juego.
+
+Durante la partida se registran el error de fase envuelto y las frecuencias de referencia y del jugador. Las gráficas muestran el intervalo de 45 segundos y conservan el historial al pausar.

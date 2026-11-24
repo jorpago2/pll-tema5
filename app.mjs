@@ -1,4 +1,4 @@
-import {initPendulumGame} from './pendulum-game.mjs?v=20261124-pendulo1';
+import {initPendulumGame} from './pendulum-game.mjs?v=20261124-graficas1';
 import {initControlIntro} from './control-intro.mjs?v=20261124-linked1';
 import {initLoopVisual} from './loop-visual.mjs?v=20261124-linked1';
 import {initNoiseExtra} from './noise-extra.mjs?v=20261124-linked1';
