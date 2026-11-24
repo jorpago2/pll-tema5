@@ -7,3 +7,5 @@ El modelo de segundo orden y tipo II representa pequeñas perturbaciones alreded
 Las curvas de ruido muestran ganancias de transferencia, no espectros absolutos. La referencia incluye N² en potencia. Los detectores se comparan con señales periódicas ideales de igual frecuencia y cada curva tiene su propia normalización. Las fuentes se indican en la propia web.
 
 Para ejecutar la vista local usa `npm start` y abre http://127.0.0.1:4174. Las pruebas del modelo se ejecutan con `npm test`. No hay dependencias externas.
+
+La vista temporal permite reproducir, pausar y recorrer el enganche. Los fasores muestran el error de fase calculado con una ampliación angular indicada en pantalla y su giro es esquemático. Un cursor sigue la misma simulación en las gráficas de frecuencia y error.

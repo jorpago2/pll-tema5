@@ -1,6 +1,7 @@
-export function initComparators() {
+export function initComparators(initial = {}) {
   const $=id=>document.getElementById(id), fmt=(n,d=3)=>n.toLocaleString('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d});
-  let type='mix',phase=45;
+  let type=['mix','xor','pfd'].includes(initial.type)?initial.type:'mix',phase=Number.isFinite(initial.phase)?Math.max(-180,Math.min(180,initial.phase)):45;
+  let active=false,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,frame=0,startTime=0;const button=$('comp-play');
   const definitions={
     mix:{name:'Multiplicador analógico', description:'Se multiplican dos señales senoidales. El filtro del lazo elimina la componente a la suma de frecuencias y conserva el valor medio, que depende del desfase.', formula:'v̄ = ½ sen(φ)', limits:'Aquí φ mide el desfase adicional respecto a la cuadratura. Alrededor de φ = 0 la respuesta es aproximadamente lineal y conserva el signo del error. El valor medio es periódico y no identifica por sí solo una diferencia sostenida de frecuencia.',unit:'Producto medio para entradas de amplitud unidad.'},
     xor:{name:'Detector digital XOR',description:'La salida está a nivel alto cuando las señales cuadradas tienen niveles opuestos. Al aumentar la separación entre sus flancos, aumenta la fracción del periodo en nivel alto.',formula:'D = |φ| / 180°',limits:'Para estas entradas ideales, +φ y −φ producen el mismo ciclo de trabajo. La XOR no determina el signo del error alrededor de 0°. Una realización de PLL puede polarizar el punto de trabajo en otra zona de la curva.',unit:'Fracción del periodo con salida a nivel alto.'},
@@ -19,7 +20,7 @@ export function initComparators() {
     const line=(y,cl,fn,sc)=>`<path d="${signalPath(y,fn,sc)}" class="${cl}"/>`;
     let txt=`<g class="comp-grid"><path d="M62 50H464 M62 110H464 M62 180H464 M62 20V205 M263 20V205 M464 20V205"/></g><g class="comp-label"><text x="3" y="53">Referencia</text><text x="3" y="113">Realim.</text><text x="3" y="183">Salida</text><text x="62" y="224">0</text><text x="254" y="224">T / 2</text><text x="458" y="224">T</text></g>`;
     txt+=line(50,'comp-wave-ref',refs[0],type==='mix'?16:23)+line(110,'comp-wave-fb',refs[1],type==='mix'?16:23)+line(180,'comp-wave-output',output,type==='mix'?23:20);
-    g.setAttribute('viewBox','0 0 480 230');g.innerHTML=txt;
+    g.setAttribute('viewBox','0 0 480 230');g.innerHTML=txt+'<path id="comp-scanner" d="M62 20V205" stroke="#9a8ec5" stroke-width="1.5" stroke-dasharray="4 4"/>';
     $('comp-wave-caption').textContent=type==='mix'?'La salida verde es el producto instantáneo. La componente de alta frecuencia se atenúa mediante el filtro.':type==='xor'?'La salida verde vale uno cuando las dos entradas son distintas.':'La salida verde representa la corriente de bomba normalizada. UP es positiva y DOWN negativa.';
   }
   function drawCurve(){
@@ -32,5 +33,5 @@ export function initComparators() {
   function render(){const d=definitions[type];$('comp-name').textContent=d.name;$('comp-description').textContent=d.description;$('comp-formula').textContent=d.formula;$('comp-limits').textContent=d.limits;$('comp-unit').textContent=d.unit;$('comp-phase-convention').textContent=type==='mix'?'φ es el desfase de referencia respecto a la realimentación, medido desde la cuadratura.':'φ = fase de referencia − fase de realimentación';$('comp-phase-value').textContent=`${phase>0?'+':''}${phase}°`;$('comp-mean').textContent=fmt(mean(phase));$('comp-phase').style.setProperty('--fill',`${(phase+180)/360*100}%`);document.querySelectorAll('[data-comp-type]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.compType===type)));drawWave();drawCurve();}
   document.querySelectorAll('[data-comp-type]').forEach(b=>b.addEventListener('click',()=>{type=b.dataset.compType;render();}));
   $('comp-phase').addEventListener('input',e=>{phase=Number(e.target.value);render();});
-  render();return {render};
+  function tick(now){frame=0;if(!active||!playing||document.hidden){startTime=0;return;}if(!startTime)startTime=now;const x=62+402*((now-startTime)%3500)/3500;const line=$('comp-scanner');if(line)line.setAttribute('d',`M${x.toFixed(1)} 20V205`);frame=requestAnimationFrame(tick);}function start(){if(active&&playing&&!frame&&!document.hidden)frame=requestAnimationFrame(tick);}function setButton(){button.textContent=playing?'Ⅱ Pausar':'▶ Reproducir';}button.addEventListener('click',()=>{playing=!playing;startTime=0;setButton();start();});document.addEventListener('visibilitychange',()=>{startTime=0;start();});setButton();$('comp-phase').value=phase;render();return {render,setVisible:v=>{active=Boolean(v);startTime=0;start();}, getState:()=>({type,phase}), setState:(v)=>{type=['mix','xor','pfd'].includes(v.type)?v.type:'mix';phase=Number.isFinite(v.phase)?Math.max(-180,Math.min(180,v.phase)):45;$('comp-phase').value=phase;render();}};
 }
