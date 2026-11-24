@@ -11,3 +11,7 @@ Para ejecutar la vista local usa `npm start` y abre http://127.0.0.1:4174. Las p
 La vista temporal permite reproducir, pausar y recorrer el enganche. Los fasores muestran el error de fase calculado con una ampliación angular ajustable indicada en pantalla, limitada para que el ángulo visual no supere 83° y su giro es esquemático. Un cursor sigue la misma simulación en las gráficas de frecuencia y error.
 
 La primera vista incluye un recorrido visual por detector, filtro, VCO y divisor. Los trazos y el cursor son esquemáticos. El divisor representa N ciclos por cada periodo de referencia cuando el lazo está enganchado.
+
+La vista del lazo conecta las cuatro etapas mediante un modelo visual normalizado único, independiente del modelo lineal de enganche. El ejemplo de ruido suma contribuciones de referencia y VCO no correlacionadas, y el PFD muestra pulsos ideales con frecuencias impuestas. Los tres son modelos didácticos, sin validación física.
+
+La primera pestaña presenta la equivalencia entre el PLL de segundo orden y un PI normalizado con planta de fase 1/s. La salida de esa planta es la fase dividida. Las ganancias están absorbidas en el modelo y la ecuación del controlador no se atribuye directamente al filtro físico.
