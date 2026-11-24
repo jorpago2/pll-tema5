@@ -8,4 +8,4 @@ Las curvas de ruido muestran ganancias de transferencia, no espectros absolutos.
 
 Para ejecutar la vista local usa `npm start` y abre http://127.0.0.1:4174. Las pruebas del modelo se ejecutan con `npm test`. No hay dependencias externas.
 
-La vista temporal permite reproducir, pausar y recorrer el enganche. Los fasores muestran el error de fase calculado con una ampliación angular indicada en pantalla y su giro es esquemático. Un cursor sigue la misma simulación en las gráficas de frecuencia y error.
+La vista temporal permite reproducir, pausar y recorrer el enganche. Los fasores muestran el error de fase calculado con una ampliación angular ajustable indicada en pantalla, limitada para que el ángulo visual no supere 83° y su giro es esquemático. Un cursor sigue la misma simulación en las gráficas de frecuencia y error.
