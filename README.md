@@ -15,3 +15,5 @@ La primera vista incluye un recorrido visual por detector, filtro, VCO y divisor
 La vista del lazo conecta las cuatro etapas mediante un modelo visual normalizado único, independiente del modelo lineal de enganche. El ejemplo de ruido suma contribuciones de referencia y VCO no correlacionadas, y el PFD muestra pulsos ideales con frecuencias impuestas. Los tres son modelos didácticos, sin validación física.
 
 La primera pestaña presenta la equivalencia entre el PLL de segundo orden y un PI normalizado con planta de fase 1/s. La salida de esa planta es la fase dividida. Las ganancias están absorbidas en el modelo y la ecuación del controlador no se atribuye directamente al filtro físico.
+
+El juego de sincronización ilustra la comparación de fase y el control manual de un oscilador con frecuencia variable. Ambos péndulos representan señales sinusoidales de frecuencia impuesta. La puntuación combina tolerancias de fase y frecuencia y es un criterio del juego.

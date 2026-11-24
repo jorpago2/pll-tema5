@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {referenceFrequency,phaseError,initialGame,stepGame,GAME_DURATION} from './pendulum-model.mjs';
+test('phase wraps continuously and a positive error indicates reference lead',()=>{assert.ok(Math.abs(phaseError(0,-Math.PI/3)-Math.PI/3)<1e-12);assert.ok(Math.abs(phaseError(Math.PI+.1,0)-(-Math.PI+.1))<1e-12);});
+test('equal frequency preserves a phase offset when reference frequency is constant in a short step',()=>{let s=initialGame(),n=stepGame(s,.0001,referenceFrequency(.00005));assert.ok(Math.abs(phaseError(n.referencePhase,n.userPhase)-Math.PI/3)<1e-10);});
+test('a faster user oscillator reduces positive phase error',()=>{let s=initialGame(),n=stepGame(s,.1,1.3);assert.ok(phaseError(n.referencePhase,n.userPhase)<phaseError(s.referencePhase,s.userPhase));});
+test('scoring requires both phase and frequency to be close',()=>{let s={...initialGame(),referencePhase:0,userPhase:0};assert.equal(stepGame(s,.01,1.3).goodTime,0);assert.ok(stepGame(s,.01,referenceFrequency(.01)).goodTime>0);});
+test('game stops at the duration even when given a long step',()=>{let s={...initialGame(),time:GAME_DURATION-.01},n=stepGame(s,1,1);assert.equal(n.time,GAME_DURATION);assert.equal(n.done,true);assert.deepEqual(stepGame(n,.1,1),n);});
